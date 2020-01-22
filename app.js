@@ -3,7 +3,6 @@ const app = express();
 const User = require('./models/User');
 const Card = require('./models/Card');
 const accountRoutes = require('./routes/account');
-const cardRoutes = require('./routes/card');
 const bodyParser = require('body-parser');
 
 // configuration of the rest API
@@ -35,9 +34,15 @@ db.authenticate()
     .then(() => console.log('Database connected...'))
     .catch(err => console.log('Error: ' + err));
 
+    Card.sync()
+    .then(() => console.log('User table created successfully'))    
+    .catch(err => console.log('Card table not created, error!'));
+
+
 User.sync()
     .then(() => console.log('User table created successfully'))
     .catch(err => console.log('User table not created,  error'));
+
 
 
 
@@ -50,8 +55,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 
-app.use('/account');
-app.use('/card');
+app.use('/account', accountRoutes);
+
 
 
 
